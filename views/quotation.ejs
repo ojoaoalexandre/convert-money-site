@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('template/head') %>
+</head>
+<body>
+    <h1>Cotação</h1>
+    <% if(error){ %>
+        <%= error %>
+    <% }else{ %>
+        <%= price %>
+        <%= amount %>
+        <%= result %>
+    <% } %>
+</body>
+</html>
