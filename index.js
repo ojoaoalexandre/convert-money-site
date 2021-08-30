@@ -4,13 +4,17 @@ const path = require('path')
 
 // Require Lib
 const money = require('./lib/money')
+const apiBC = require('./lib/api-bc')
 
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
 app.use(express.static(path.join(__dirname, 'public')))
 
-app.get('/', (req, res) => {
-    res.render('home')
+app.get('/', async(req, res) => {
+    const salePrice = await apiBC.getSalePrice()
+    res.render('home', {
+        salePrice
+    })
 })
 
 app.get('/quotation', (req, res) => {
