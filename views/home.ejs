@@ -1,3 +1,10 @@
 <%- include('./template/header'); %>
-<h1>Teste</h1>
+
+<h1>Conversão</h1>
+<form method="GET" action="/quotation">
+  <input type="text" name="currency" id="currency" />
+  <input type="text" name="currencyTrade" id="currencyTrade" />
+  <button type="submit">Converter</button>
+</form>
+
 <%- include('./template/footer') %>
