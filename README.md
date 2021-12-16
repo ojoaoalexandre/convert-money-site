@@ -32,6 +32,6 @@ Inicie o servidor de desenvolvimento:
 
 **Client:** EJS
 
-**Server:** Express.js
+**Server:** Express.js, Jest
 
 ## Screenshots

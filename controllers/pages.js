@@ -1,7 +1,8 @@
 const { trade, toCurrency } = require('../lib/convert')
+const { apiBCQuotation } = require('../lib/apiBCQuotation')
 
 const home = (req, res) => res.render('home')
-const quotation = (req, res) => {
+const quotation = async (req, res) => {
     const { currency, currencyTrade } = req.query
     if (currency && currencyTrade) {
         const currencyConvert = trade(currency, currencyTrade)
@@ -9,6 +10,7 @@ const quotation = (req, res) => {
             currencyConverted: toCurrency(currencyConvert),
             currency: toCurrency(currency),
             currencyTrade: toCurrency(currencyTrade),
+            current: await apiBCQuotation(),
             error: false
         })
     } else {
