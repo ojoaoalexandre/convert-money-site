@@ -1,10 +1,32 @@
 const { trade, toCurrency } = require('../lib/convert')
 const { getQuotation } = require('../lib/apiBC')
 
-const home = async (req, res) =>
+const selectCoin = [
+    { name: "Real Brasileiro", code: "BRL" },
+    { name: "Dólar Americano", code: "USD" },
+    { name: "Euro", code: "EUR" },
+    { name: "Bitcoin", code: "BTC" }
+]
+
+const home = async (req, res) => {
+    const {
+        fromCoinValue,
+        toCoinValue,
+        fromCoinCode,
+        toCoinCode
+    } = req.query
+
+    const fromValue = fromCoinValue ?? 1
+    const fromCode = fromCoinCode ?? "EUR"
+    const toCode = toCoinCode ?? "DOGE"
+
     res.render('home', {
-        quotation: await getQuotation()
+        fromCoinValue: fromValue,
+        fromCoinCode: fromCode,
+        quotation: await getQuotation(fromCode, toCode),
+        selectCoin,
     })
+}
 
 const quotation = async (req, res) => {
     const { currency, currencyTrade } = req.query

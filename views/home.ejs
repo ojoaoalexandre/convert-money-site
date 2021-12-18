@@ -1,14 +1,24 @@
 <%- include('./template/header'); %>
 
 <h1>Conversão</h1>
-<form method="GET" action="/quotation">
-  <input type="text" name="currency" id="currency" />
-  <input
-    type="text"
-    name="currencyTrade"
-    id="currencyTrade"
-    value="<%= quotation %>"
-  />
+<form class="form-convert" method="GET" action="/">
+
+  <input type="text" name="fromCoinValue" id="fromCoinValue" value="<%= fromCoinValue %>" />
+
+  <select name="fromCoinCode">
+    <% selectCoin.forEach(coin => { %>
+    <option value="<%= coin.code %>" <%- coin.code == fromCoinCode ? "selected" : ""  %>><%= coin.name %></option>
+    <% }) %>
+  </select>
+
+  <input id="quotation" type="text" name="toCoinValue" value="<%= quotation.ask %>" />
+
+  <select name="toCoinCode">
+    <% selectCoin.forEach(coin => { %>
+    <option value="<%= coin.code %>" <%- coin.code == quotation.code ? "selected" : ""  %> ><%= coin.name %></option>
+    <% }) %>
+  </select>
+
   <button type="submit">Converter</button>
 </form>
 
