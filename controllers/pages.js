@@ -1,21 +1,26 @@
 const { trade, toCurrency } = require('../lib/convert')
-const { apiBCQuotation } = require('../lib/apiBCQuotation')
+const { getQuotation } = require('../lib/apiBC')
 
-const home = (req, res) => res.render('home')
+const home = async (req, res) =>
+    res.render('home', {
+        quotation: await getQuotation()
+    })
+
 const quotation = async (req, res) => {
     const { currency, currencyTrade } = req.query
+
     if (currency && currencyTrade) {
         const currencyConvert = trade(currency, currencyTrade)
         res.render('quotation', {
             currencyConverted: toCurrency(currencyConvert),
             currency: toCurrency(currency),
             currencyTrade: toCurrency(currencyTrade),
-            current: await apiBCQuotation(),
             error: false
         })
     } else {
         res.render('home', {
-            error: 'Valores Inválidos'
+            error: 'Valores Inválidos',
+            quotation: await getQuotation()
         })
     }
 }
