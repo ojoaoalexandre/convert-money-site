@@ -13,31 +13,28 @@
 
   <input id="quotation" type="text" name="toCoinValue" value="<%= quotation.ask %>" />
 
-  <select id="toCoinCode" name="toCoinCode">
-
-  </select>
+  <select id="toCoinCode" name="toCoinCode"></select>
 
   <button type="submit">Converter</button>
 </form>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const createNode = (element) => {
-      return document.createElement(element)
-    }
+  const filterToCoinCode = document.getElementById('toCoinCode')
 
-    const filterToCoinCode = document.getElementById('toCoinCode')
+  const createNode = (element) => {
+    return document.createElement(element)
+  }
 
-    const append = (parent, element) => {
-      return parent.appendChild(element)
-    }
+  const append = (parent, element) => {
+    return parent.appendChild(element)
+  }
 
-    document.getElementById('fromCoinCode').addEventListener('change', async (e) => {
+  const updateFilter = async (code) => {
       while (filterToCoinCode.firstChild) {
         filterToCoinCode.removeChild(filterToCoinCode.firstChild)
       }
-      
-      await fetch(`/filter?filtertoCoinCode=${e.target.value}`)
+
+      await fetch(`/filter?filtertoCoinCode=${code}`)
         .then(response => response.json())
         .then((data) => {
           return data.map(item => {
@@ -47,6 +44,17 @@
             append(filterToCoinCode, option)
           })
         })
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const filterMain = document.getElementById('fromCoinCode')
+    
+    // first load
+    updateFilter(filterMain.value)
+
+    // load dinamic
+    filterMain.addEventListener('change', (e) => {
+      updateFilter(e.target.value)
     })
   })
 </script>
