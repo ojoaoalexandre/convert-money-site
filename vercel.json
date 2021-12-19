@@ -20,6 +20,11 @@
       "src": "/quotation",
       "dest": "/index.js",
       "methods": ["GET"]
+    },
+    {
+      "src": "/filter",
+      "dest": "/index.js",
+      "methods": ["GET"]
     }
   ]
 }
