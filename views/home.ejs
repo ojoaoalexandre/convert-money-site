@@ -5,7 +5,7 @@
 
   <input type="text" name="fromCoinValue" id="fromCoinValue" value="<%= fromCoinValue %>" />
 
-  <select name="fromCoinCode">
+  <select id="fromCoinCode" name="fromCoinCode">
     <% selectCoin.forEach(coin => { %>
     <option value="<%= coin.code %>" <%- coin.code == fromCoinCode ? "selected" : ""  %>><%= coin.name %></option>
     <% }) %>
@@ -13,13 +13,42 @@
 
   <input id="quotation" type="text" name="toCoinValue" value="<%= quotation.ask %>" />
 
-  <select name="toCoinCode">
-    <% selectCoin.forEach(coin => { %>
-    <option value="<%= coin.code %>" <%- coin.code == quotation.code ? "selected" : ""  %> ><%= coin.name %></option>
-    <% }) %>
+  <select id="toCoinCode" name="toCoinCode">
+
   </select>
 
   <button type="submit">Converter</button>
 </form>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const createNode = (element) => {
+      return document.createElement(element)
+    }
+
+    const filterToCoinCode = document.getElementById('toCoinCode')
+
+    const append = (parent, element) => {
+      return parent.appendChild(element)
+    }
+
+    document.getElementById('fromCoinCode').addEventListener('change', async (e) => {
+      while (filterToCoinCode.firstChild) {
+        filterToCoinCode.removeChild(filterToCoinCode.firstChild)
+      }
+      
+      await fetch(`/filter?filtertoCoinCode=${e.target.value}`)
+        .then(response => response.json())
+        .then((data) => {
+          return data.map(item => {
+            let option = createNode('option')
+            option.value = item.code
+            option.innerHTML = `${item.name}`
+            append(filterToCoinCode, option)
+          })
+        })
+    })
+  })
+</script>
 
 <%- include('./template/footer') %>
