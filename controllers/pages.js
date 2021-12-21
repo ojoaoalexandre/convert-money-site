@@ -1,14 +1,13 @@
-const { getQuotation, getListCurrency } = require('../lib/apiBC')
+const { getQuotation } = require('../lib/apiBC')
 const { trade, toCurrency } = require('../lib/convert')
 
-const filter = async (req, res) => {
-    const { list } = await getListCurrency()
+const filter = async (list, req, res) => {
     const { filtertoCoinCode } = req.query
     const listMainFilter = list.filter(item => item[filtertoCoinCode])
     const filterFinal =
         listMainFilter[0][filtertoCoinCode].map(item => {
-            const name = item.namein
-            const code = item.codein
+            const name = item.name
+            const code = item.code
             return {
                 name,
                 code
@@ -18,12 +17,17 @@ const filter = async (req, res) => {
     res.send(filterFinal)
 }
 
-const home = async (req, res) => {
-    const { list } = await getListCurrency()
+const queryQuotation = async (req, res) => {
+    const { to, from } = req.query
+    const coin = await getQuotation(to, from)
+    res.send(coin)
+}
+
+const home = async (list, req, res) => {
     const listInitial = list.map(item => {
         const [coin] = Object.keys(item).map(coin => {
-            const name = item[coin][0].name
-            const code = item[coin][0].code
+            const name = item[coin][0].namein
+            const code = item[coin][0].codein
             return {
                 name,
                 code
@@ -52,7 +56,7 @@ const home = async (req, res) => {
     })
 }
 
-const quotation = async (req, res, list) => {
+const quotation = async (req, res) => {
     const { currency, currencyTrade } = req.query
 
     if (currency && currencyTrade) {
@@ -74,5 +78,6 @@ const quotation = async (req, res, list) => {
 module.exports = {
     home,
     quotation,
-    filter
+    filter,
+    queryQuotation
 }

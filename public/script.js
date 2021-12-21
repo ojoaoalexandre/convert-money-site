@@ -1,4 +1,5 @@
 const filterToCoinCode = document.getElementById('toCoinCode')
+const coinToValue = document.getElementById('quotation')
 
 const createNode = (element) => {
     return document.createElement(element)
@@ -23,6 +24,21 @@ const updateFilter = async (code) => {
                 append(filterToCoinCode, option)
             })
         })
+
+    await updateCoinValue(code)
+
+}
+
+const updateCoinValue = async (code) => {
+    await fetch(`/getQuotation?to=${filterToCoinCode.value}&from=${code}`)
+        .then(response => response.json())
+        .then((data) => {
+            if (data.ask) {
+                coinToValue.value = data.ask
+            } else {
+                console.log(data.message)
+            }
+        })
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -31,8 +47,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // first load
     updateFilter(filterMain.value)
 
-    // load dinamic
+    // load dynamic
     filterMain.addEventListener('change', (e) => {
         updateFilter(e.target.value)
     })
+
+    filterToCoinCode.addEventListener('change', (e) => {
+        updateCoinValue(filterMain.value)
+    })
+
+
 })
