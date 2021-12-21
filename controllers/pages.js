@@ -14,6 +14,8 @@ const filter = async (list, req, res) => {
             }
         })
 
+    // sort list
+    newList.sort((item, next) => (item.name > next.name) ? 1 : -1)
     res.send(newList)
 }
 
@@ -35,6 +37,9 @@ const home = async (list, req, res) => {
         })
         return coin
     })
+
+    // sort list
+    listFrom.sort((item, next) => (item.name > next.name) ? 1 : -1)
 
     const { fromCode, toCode } = req.query
 

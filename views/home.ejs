@@ -2,12 +2,15 @@
 <main class="flex flex-col min-h-screen justify-center">
   <section class="flex flex-col px-4">
     <div class="flex flex-col items-center">
-      <header>
-        <h1 class="font-bold text-lg">Conversão de Moedas</h1>
+      <header class="py-4">
+        <h1 class="text-2xl gap-2">
+          <span>🪙</span>
+          <span class="font-bold">Conversão de Moedas</span>
+        </h1>
       </header>
       <form class="flex flex-col w-full max-w-md gap-2" method="GET" action="/q">
         <div class="grid grid-cols-1 gap-2 sm:grid-cols-2">
-          <p class="sm:col-span-2 font-semibold text-xs">Converter a moeda</p>
+          <p class="sm:col-span-2 font-semibold text-xs"> Converter a moeda</p>
           <select id="fromCode" name="fromCode" class="border rounded-sm px-2 py-1 text-center">
             <% listFrom.forEach(coin => { %>
             <option value="<%= coin.code %>" <%- coin.code == fromCode ? "selected" : ""  %>><%= coin.name %></option>
@@ -24,7 +27,7 @@
   
             <div class="relative flex py-1 border rounded-sm">
                 <span class="flex justify-center items-center py-1 px-2">
-                  <svg id="loading" class="hidden absolute left-2 animate-spin h-5 w-5 text-green-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <svg id="loading" class="hidden absolute left-2 animate-spin h-5 w-5 text-yellow-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
@@ -33,7 +36,7 @@
               </div>
         </div>
 
-        <button type="submit" class="py-1 px-4 bg-green-200 text-green-800 rounded-sm hover:bg-green-400">Converter</button>
+        <button type="submit" class="py-1 px-4 bg-yellow-200 text-yellow-800 rounded-sm hover:bg-yellow-400">Converter</button>
       </form>
     </div>
   </section>
