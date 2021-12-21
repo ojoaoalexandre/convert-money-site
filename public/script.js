@@ -1,6 +1,6 @@
 const filterToCoinCode = document.getElementById('toCoinCode')
 const coinToValue = document.getElementById('quotation')
-const message = document.getElementById('message')
+const loading = document.getElementById('loading')
 
 const createNode = (element) => {
     return document.createElement(element)
@@ -31,6 +31,7 @@ const updateFilter = async (code) => {
 }
 
 const updateCoinValue = async (code) => {
+    loading.classList.remove('hidden')
     // message.innerText = 'Carregando...'
     await fetch(`/getQuotation?to=${filterToCoinCode.value}&from=${code}`)
         .then(response => response.json())
@@ -42,6 +43,7 @@ const updateCoinValue = async (code) => {
             }
         })
     // message.innerText = ''
+    loading.classList.add('hidden')
 }
 
 document.addEventListener('DOMContentLoaded', () => {
