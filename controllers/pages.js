@@ -2,10 +2,10 @@ const { getQuotation } = require('../lib/apiBC')
 const { trade, toCurrency } = require('../lib/convert')
 
 const filter = async (list, req, res) => {
-    const { filtertoCoinCode } = req.query
-    const listMainFilter = list.filter(item => item[filtertoCoinCode])
-    const filterFinal =
-        listMainFilter[0][filtertoCoinCode].map(item => {
+    const { from } = req.query
+    const filterList = list.filter(item => item[from])
+    const newList =
+        filterList[0][from].map(item => {
             const name = item.name
             const code = item.code
             return {
@@ -14,7 +14,7 @@ const filter = async (list, req, res) => {
             }
         })
 
-    res.send(filterFinal)
+    res.send(newList)
 }
 
 const queryQuotation = async (req, res) => {
@@ -24,7 +24,7 @@ const queryQuotation = async (req, res) => {
 }
 
 const home = async (list, req, res) => {
-    const listInitial = list.map(item => {
+    const listFrom = list.map(item => {
         const [coin] = Object.keys(item).map(coin => {
             const name = item[coin][0].namein
             const code = item[coin][0].codein
@@ -36,48 +36,47 @@ const home = async (list, req, res) => {
         return coin
     })
 
-    const {
-        fromCoinValue,
-        toCoinValue,
-        fromCoinCode,
-        toCoinCode
-    } = req.query
-
-    const fromValue = fromCoinValue ?? 1
-    const fromCode = fromCoinCode ?? "BRL"
-    const toCode = toCoinCode ?? "USD"
-    const selectCoin = listInitial
+    const { fromCode, toCode } = req.query
 
     res.render('home', {
-        fromCoinValue: fromValue,
-        fromCoinCode: fromCode,
-        quotation: await getQuotation(fromCode, toCode),
-        selectCoin
+        fromValue: 1,
+        fromCode: "BRL",
+        toValue: await getQuotation(fromCode, toCode),
+        listFrom
     })
 }
 
 const quotation = async (req, res) => {
-    const { currency, currencyTrade } = req.query
+    let result = {}
+    const { toCode, toValue, fromCode, fromValue } = req.query
 
-    if (currency && currencyTrade) {
-        const currencyConvert = trade(currency, currencyTrade)
-        res.render('quotation', {
-            currencyConverted: toCurrency(currencyConvert),
-            currency: toCurrency(currency),
-            currencyTrade: toCurrency(currencyTrade),
+    if (toCode && toValue && fromCode && fromValue) {
+        const convert = trade(toValue, fromValue)
+        result = {
+            toValue: toCurrency(toValue),
+            toCode,
+            fromValue: toCurrency(fromValue),
+            fromCode,
+            convert,
             error: false
-        })
+        }
     } else {
-        res.render('home', {
-            error: 'Valores Inválidos',
-            quotation: await getQuotation()
-        })
+        result = {
+            error: 'Valores Inválidos'
+        }
     }
+
+    res.render('quotation', result)
+}
+
+const teste = (req, res) => {
+    res.render('teste')
 }
 
 module.exports = {
     home,
     quotation,
     filter,
-    queryQuotation
+    queryQuotation,
+    teste
 }

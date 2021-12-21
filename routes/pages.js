@@ -11,5 +11,7 @@ router.get('/', async (req, res, next) => {
 })
 
 router.get('/getQuotation', controller.queryQuotation)
+router.get('/q', controller.quotation)
+router.get('/teste', controller.teste)
 
 module.exports = router

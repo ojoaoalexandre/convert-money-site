@@ -1,34 +1,42 @@
 <%- include('./template/header'); %>
 <main class="flex flex-col min-h-screen justify-center">
-  <section class="flex flex-col">
-    <header>
-      <h1 class="font-bold text-lg">Conversão</h1>
-    </header>
+  <section class="flex flex-col px-4">
     <div class="flex flex-col items-center">
-      <form class="flex flex-col w-full max-w-md gap-2" method="GET" action="/">
-        <input type="text" name="fromCoinValue" id="fromCoinValue" value="<%= fromCoinValue %>" class="border rounded-sm px-2 py-1 text-center" />
-
-        <select id="fromCoinCode" name="fromCoinCode" class="border rounded-sm px-2 py-1 text-center">
-          <% selectCoin.forEach(coin => { %>
-          <option value="<%= coin.code %>" <%- coin.code == fromCoinCode ? "selected" : ""  %>><%= coin.name %></option>
-          <% }) %>
-        </select>
-
-        <input id="quotation" type="text" name="toCoinValue" value="<%= quotation.ask %>" class="border rounded-sm px-2 py-1 text-center" />
-
-        <div class="flex border rounded-sm">
-          <span class="flex justify-center items-center  py-1 px-2">
-            <svg id="loading" class="hidden animate-spin h-5 w-5 text-blue-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-          </span>
-          <select id="toCoinCode" name="toCoinCode" class="w-full text-center pr-2 py-1"></select>
+      <header>
+        <h1 class="font-bold text-lg">Conversão de Moedas</h1>
+      </header>
+      <form class="flex flex-col w-full max-w-md gap-2" method="GET" action="/q">
+        <div class="grid grid-cols-1 gap-2 sm:grid-cols-2">
+          <p class="sm:col-span-2 font-semibold text-xs">Converter a moeda</p>
+          <select id="fromCode" name="fromCode" class="border rounded-sm px-2 py-1 text-center">
+            <% listFrom.forEach(coin => { %>
+            <option value="<%= coin.code %>" <%- coin.code == fromCode ? "selected" : ""  %>><%= coin.name %></option>
+            <% }) %>
+          </select>
+  
+          <input type="text" name="fromValue" id="fromValue" value="<%= fromValue %>" class="border rounded-sm px-2 py-1 text-center" />
         </div>
 
-        <button type="submit">Converter</button>
+        <div class="grid grid-cols-1 gap-2 sm:grid-cols-2">
+          <p class="sm:col-span-2 font-semibold text-xs">Para a moeda</p>
+
+            <select id="toCode" name="toCode" class="border rounded-sm px-2 py-1 text-center"></select>
+  
+            <div class="relative flex py-1 border rounded-sm">
+                <span class="flex justify-center items-center py-1 px-2">
+                  <svg id="loading" class="hidden absolute left-2 animate-spin h-5 w-5 text-green-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                </span>
+                <input id="toValue" type="text" name="toValue" value="<%= toValue.ask %>" class="w-full text-center" />
+              </div>
+        </div>
+
+        <button type="submit" class="py-1 px-4 bg-green-200 text-green-800 rounded-sm hover:bg-green-400">Converter</button>
       </form>
     </div>
   </section>
 </main>
+<script src="/script.js"></script>
 <%- include('./template/footer') %>

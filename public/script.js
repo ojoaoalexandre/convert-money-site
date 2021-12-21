@@ -1,5 +1,6 @@
-const filterToCoinCode = document.getElementById('toCoinCode')
-const coinToValue = document.getElementById('quotation')
+const fromCode = document.getElementById('fromCode')
+const toCode = document.getElementById('toCode')
+const toValue = document.getElementById('toValue')
 const loading = document.getElementById('loading')
 
 const createNode = (element) => {
@@ -10,55 +11,50 @@ const append = (parent, element) => {
     return parent.appendChild(element)
 }
 
-const updateFilter = async (code) => {
-    while (filterToCoinCode.firstChild) {
-        filterToCoinCode.removeChild(filterToCoinCode.firstChild)
+const updateToCode = async (code) => {
+    while (toCode.firstChild) {
+        toCode.removeChild(toCode.firstChild)
     }
 
-    await fetch(`/filter?filtertoCoinCode=${code}`)
+    await fetch(`/filter?from=${code}`)
         .then(response => response.json())
         .then((data) => {
             return data.map(item => {
                 let option = createNode('option')
                 option.value = item.code
                 option.innerHTML = `${item.name}`
-                append(filterToCoinCode, option)
+                append(toCode, option)
             })
         })
 
-    await updateCoinValue(code)
+    await updateToValue(code)
 
 }
 
-const updateCoinValue = async (code) => {
+const updateToValue = async (code) => {
     loading.classList.remove('hidden')
-    // message.innerText = 'Carregando...'
-    await fetch(`/getQuotation?to=${filterToCoinCode.value}&from=${code}`)
+    await fetch(`/getQuotation?to=${toCode.value}&from=${code}`)
         .then(response => response.json())
         .then((data) => {
             if (data.ask) {
-                coinToValue.value = data.ask
+                toValue.value = data.ask
+                loading.classList.add('hidden')
             } else {
                 console.log(data.message)
             }
         })
-    // message.innerText = ''
-    loading.classList.add('hidden')
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const filterMain = document.getElementById('fromCoinCode')
 
-    // first load
-    updateFilter(filterMain.value)
+    updateToCode(fromCode.value)
 
-    // load dynamic
-    filterMain.addEventListener('change', (e) => {
-        updateFilter(e.target.value)
+    fromCode.addEventListener('change', (e) => {
+        updateToCode(e.target.value)
     })
 
-    filterToCoinCode.addEventListener('change', (e) => {
-        updateCoinValue(filterMain.value)
+    toCode.addEventListener('change', (e) => {
+        updateToValue(fromCode.value)
     })
 
 
