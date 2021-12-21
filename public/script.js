@@ -1,5 +1,6 @@
 const filterToCoinCode = document.getElementById('toCoinCode')
 const coinToValue = document.getElementById('quotation')
+const message = document.getElementById('message')
 
 const createNode = (element) => {
     return document.createElement(element)
@@ -30,6 +31,7 @@ const updateFilter = async (code) => {
 }
 
 const updateCoinValue = async (code) => {
+    message.innerText = 'Carregando...'
     await fetch(`/getQuotation?to=${filterToCoinCode.value}&from=${code}`)
         .then(response => response.json())
         .then((data) => {
@@ -39,6 +41,7 @@ const updateCoinValue = async (code) => {
                 console.log(data.message)
             }
         })
+    message.innerText = ''
 }
 
 document.addEventListener('DOMContentLoaded', () => {
