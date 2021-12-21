@@ -31,7 +31,7 @@ const updateFilter = async (code) => {
 }
 
 const updateCoinValue = async (code) => {
-    message.innerText = 'Carregando...'
+    // message.innerText = 'Carregando...'
     await fetch(`/getQuotation?to=${filterToCoinCode.value}&from=${code}`)
         .then(response => response.json())
         .then((data) => {
@@ -41,7 +41,7 @@ const updateCoinValue = async (code) => {
                 console.log(data.message)
             }
         })
-    message.innerText = ''
+    // message.innerText = ''
 }
 
 document.addEventListener('DOMContentLoaded', () => {

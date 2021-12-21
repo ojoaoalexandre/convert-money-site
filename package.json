@@ -11,6 +11,7 @@
     "moment": "^2.29.1"
   },
   "devDependencies": {
-    "jest": "^27.4.5"
+    "jest": "^27.4.5",
+    "tailwindcss": "^3.0.7"
   }
 }
