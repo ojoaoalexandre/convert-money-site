@@ -1,13 +1,44 @@
 <%- include('./template/header'); %>
-<main class="flex flex-col min-h-screen justify-center">
+<main class="flex flex-grow items-center justify-center">
   <section class="flex flex-col px-4">
-    <div class="flex flex-col items-center">
-      <header>
-        <h1 class="font-bold text-lg">Conversão de Moedas</h1>
-      </header>
-      <div>
-        <%= toValue %> <%= toCode %> <%= fromValue %> <%= fromCode %> <%=
-        convert %>
+    <div class="flex flex-col items-center gap-4">
+      <%- include('./template/social'); %>
+      <div class="flex flex-col gap-4">
+        <% if(!error){ %>
+        <div class="flex flex-col items-end">
+          <p class="text-xs">Cotação</p>
+          <p class="font-bold"><%= toCode %> <%= toValue %></p>
+        </div>
+        <div>
+          <p>Resultado</p>
+          <p class="text-5xl font-bold text-yellow-700"><%= convert %></p>
+          <p class="text-right text-xs"><%= toName %></p>
+        </div>
+        <div>
+          <p>Foram convertidos</p>
+          <div class="bg-gray-100 rounded-sm px-4 py-1">
+            <p class="font-bold text-lg"><%= fromCode %> <%= fromValue %></p>
+            <p class="text-xs"><%= fromName %></p>
+          </div>
+        </div>
+        <% } else {%>
+        <div class="flex flex-col gap-2 text-center">
+          <p class="text-5xl">💸</p>
+          <p class="text-xl font-semibold"><%= error %></p>
+        </div>
+        <% } %>
+        <a
+          href="/"
+          class="
+            py-1
+            px-4
+            bg-yellow-200
+            text-yellow-800
+            rounded-sm
+            hover:bg-yellow-400
+          "
+          >Voltar ao Início</a
+        >
       </div>
     </div>
   </section>

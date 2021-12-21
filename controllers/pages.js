@@ -51,18 +51,24 @@ const home = async (list, req, res) => {
     })
 }
 
-const quotation = async (req, res) => {
+const quotation = async (list, req, res) => {
     let result = {}
     const { toCode, toValue, fromCode, fromValue } = req.query
 
     if (toCode && toValue && fromCode && fromValue) {
+        const filterList = list.filter(item => item[fromCode])
+        const [names] = filterList[0][fromCode].filter(item => item.code == toCode)
+        console.log(names)
+
         const convert = trade(toValue, fromValue)
         result = {
             toValue: toCurrency(toValue),
             toCode,
+            toName: names.name,
             fromValue: toCurrency(fromValue),
             fromCode,
-            convert,
+            fromName: names.namein,
+            convert: toCurrency(convert),
             error: false
         }
     } else {
