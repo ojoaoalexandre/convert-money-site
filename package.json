@@ -3,7 +3,7 @@
     "dev:tailwind": "npx tailwindcss -i ./public/css/app.css -o ./public/minify.css --watch",
     "start:tailwind": "npx tailwindcss -i ./public/app.css -o ./public/app.css --minify",
     "start": "yarn start:tailwind && node index.js",
-    "dev": "yarn dev:tailwind && node index.js",
+    "dev": "node index.js && yarn dev:tailwind",
     "test": "jest"
   },
   "dependencies": {
