@@ -30,8 +30,8 @@ Inicie o servidor de desenvolvimento:
 
 ## Tech Stack
 
-**Client:** EJS
+**Client:** EJS, Tailwind.css
 
-**Server:** Express.js, Jest
+**Server:** Node.js, Express.js, Jest
 
 ## Screenshots
